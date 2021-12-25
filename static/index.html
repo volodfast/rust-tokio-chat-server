@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+  </head>
+  <body>
+    <h1>Webchat</h1>
+    <div>
+      <h2>Messages</h2>
+      <form id="message-form">
+        <textarea id="message-input"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+      <div id="message-container"></div>
+    </div>
+    <script>
+      const webSocket = new WebSocket('ws://localhost:5000/chat');
+
+      const messageContainer = document.getElementById('message-container');
+      const messageInput = document.getElementById('message-input');
+      const messageForm = document.getElementById('message-form');
+
+      webSocket.addEventListener('open', (event) => {
+        console.log('onopen');
+        console.log(event);
+      });
+
+      webSocket.addEventListener('message', (event) => {
+        const div = document.createElement('div');
+        div.innerText = event.data;
+
+        messageContainer.appendChild(div);
+      });
+
+      messageForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const message = messageInput.value;
+        messageInput.value = '';
+
+        webSocket.send(message);
+
+        const div = document.createElement('div');
+        div.innerText = `You: ${message}`;
+
+        messageContainer.appendChild(div);
+      });
+    </script>
+  </body>
+</html>
