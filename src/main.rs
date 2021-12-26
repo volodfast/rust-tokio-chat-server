@@ -35,7 +35,7 @@ async fn main() {
 async fn user_connected(ws: WebSocket, users: Users) {
   let user_id = NEXT_USER_ID.fetch_add(1, Ordering::Relaxed);
 
-  eprintln!("new chat user: {}", user_id);
+  eprintln!("New connection: <User#{}>", user_id);
 
   let (user_ws_tx, mut user_ws_rx) = ws.split();
 
