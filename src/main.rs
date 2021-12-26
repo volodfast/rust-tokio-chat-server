@@ -83,6 +83,6 @@ async fn user_message(user_id: usize, msg: Message, users: &Users) {
 }
 
 async fn user_disconnected(user_id: usize, users: &Users) {
-  eprintln!("user {} disconnected", user_id);
+  eprintln!("<User#{}> disconnected", user_id);
   users.write().await.remove(&user_id);
 }
